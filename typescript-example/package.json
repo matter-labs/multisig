@@ -1,0 +1,23 @@
+{
+    "name": "threshold-multisig",
+    "license": "MIT",
+    "dependencies": {
+        "@types/node": "^14.6.4",
+        "musig-bindings": "link:../musig-bindings",
+        "zksync-crypto": "^0.3.2"
+    },
+    "devDependencies": {
+        "@types/chai": "^4.2.12",
+        "@types/mocha": "^8.0.3",
+        "chai": "^4.2.0",
+        "mocha": "^8.1.3",
+        "ts-node": "^9.0.0",
+        "typescript": "^4.0.2",
+        "ethers": "5.0.12"
+    },
+    "scripts": {
+        "build": "tsc -b",
+        "clean": "rm -rf lib/*",
+        "test": "mocha --require source-map-support/register lib/test/**/*.test.js --exit"
+    }
+}

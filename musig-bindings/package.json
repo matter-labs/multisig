@@ -1,0 +1,15 @@
+{
+  "name": "musig-bindings",
+  "collaborators": [
+    "Sait Imamoglu <nuggez@gmail.com>"
+  ],
+  "version": "0.1.0",
+  "files": [
+    "musig-bindings_bg.wasm",
+    "musig-bindings.js",
+    "musig-bindings_bg.js",
+    "musig-bindings.d.ts"
+  ],
+  "main": "musig-bindings.js",
+  "types": "musig-bindings.d.ts"
+}
