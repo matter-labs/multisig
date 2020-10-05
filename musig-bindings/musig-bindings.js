@@ -57,6 +57,18 @@ function passArray8ToWasm0(arg, malloc) {
     return ptr;
 }
 
+let cachegetInt32Memory0 = null;
+function getInt32Memory0() {
+    if (cachegetInt32Memory0 === null || cachegetInt32Memory0.buffer !== wasm.memory.buffer) {
+        cachegetInt32Memory0 = new Int32Array(wasm.memory.buffer);
+    }
+    return cachegetInt32Memory0;
+}
+
+function getArrayU8FromWasm0(ptr, len) {
+    return getUint8Memory0().subarray(ptr / 1, ptr / 1 + len);
+}
+
 let cachegetUint32Memory0 = null;
 function getUint32Memory0() {
     if (cachegetUint32Memory0 === null || cachegetUint32Memory0.buffer !== wasm.memory.buffer) {
@@ -71,33 +83,32 @@ function passArray32ToWasm0(arg, malloc) {
     WASM_VECTOR_LEN = arg.length;
     return ptr;
 }
-
-let cachegetInt32Memory0 = null;
-function getInt32Memory0() {
-    if (cachegetInt32Memory0 === null || cachegetInt32Memory0.buffer !== wasm.memory.buffer) {
-        cachegetInt32Memory0 = new Int32Array(wasm.memory.buffer);
-    }
-    return cachegetInt32Memory0;
-}
-
-function getArrayU8FromWasm0(ptr, len) {
-    return getUint8Memory0().subarray(ptr / 1, ptr / 1 + len);
-}
 /**
-* @param {Uint32Array} seed
-* @returns {Uint8Array}
 */
-module.exports.generate_keypair = function(seed) {
-    var ptr0 = passArray32ToWasm0(seed, wasm.__wbindgen_malloc);
-    var len0 = WASM_VECTOR_LEN;
-    wasm.generate_keypair(8, ptr0, len0);
-    var r0 = getInt32Memory0()[8 / 4 + 0];
-    var r1 = getInt32Memory0()[8 / 4 + 1];
-    var v1 = getArrayU8FromWasm0(r0, r1).slice();
-    wasm.__wbindgen_free(r0, r1 * 1);
-    return v1;
-};
+class MusigBN256WasmAggregatedPubkey {
 
+    free() {
+        const ptr = this.ptr;
+        this.ptr = 0;
+
+        wasm.__wbg_musigbn256wasmaggregatedpubkey_free(ptr);
+    }
+    /**
+    * @param {Uint8Array} encoded_pubkeys
+    * @returns {Uint8Array}
+    */
+    static compute(encoded_pubkeys) {
+        var ptr0 = passArray8ToWasm0(encoded_pubkeys, wasm.__wbindgen_malloc);
+        var len0 = WASM_VECTOR_LEN;
+        wasm.musigbn256wasmaggregatedpubkey_compute(8, ptr0, len0);
+        var r0 = getInt32Memory0()[8 / 4 + 0];
+        var r1 = getInt32Memory0()[8 / 4 + 1];
+        var v1 = getArrayU8FromWasm0(r0, r1).slice();
+        wasm.__wbindgen_free(r0, r1 * 1);
+        return v1;
+    }
+}
+module.exports.MusigBN256WasmAggregatedPubkey = MusigBN256WasmAggregatedPubkey;
 /**
 */
 class MusigBN256WasmSigner {
@@ -215,17 +226,16 @@ class MusigBN256WasmVerifier {
     * @param {Uint8Array} message
     * @param {Uint8Array} encoded_pubkeys
     * @param {Uint8Array} encoded_signature
-    * @param {number} position
     * @returns {boolean}
     */
-    static verify(message, encoded_pubkeys, encoded_signature, position) {
+    static verify(message, encoded_pubkeys, encoded_signature) {
         var ptr0 = passArray8ToWasm0(message, wasm.__wbindgen_malloc);
         var len0 = WASM_VECTOR_LEN;
         var ptr1 = passArray8ToWasm0(encoded_pubkeys, wasm.__wbindgen_malloc);
         var len1 = WASM_VECTOR_LEN;
         var ptr2 = passArray8ToWasm0(encoded_signature, wasm.__wbindgen_malloc);
         var len2 = WASM_VECTOR_LEN;
-        var ret = wasm.musigbn256wasmverifier_verify(ptr0, len0, ptr1, len1, ptr2, len2, position);
+        var ret = wasm.musigbn256wasmverifier_verify(ptr0, len0, ptr1, len1, ptr2, len2);
         return ret !== 0;
     }
 }

@@ -1,10 +1,15 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
-* @param {Uint32Array} seed
+*/
+export class MusigBN256WasmAggregatedPubkey {
+  free(): void;
+/**
+* @param {Uint8Array} encoded_pubkeys
 * @returns {Uint8Array}
 */
-export function generate_keypair(seed: Uint32Array): Uint8Array;
+  static compute(encoded_pubkeys: Uint8Array): Uint8Array;
+}
 /**
 */
 export class MusigBN256WasmSigner {
@@ -50,8 +55,7 @@ export class MusigBN256WasmVerifier {
 * @param {Uint8Array} message
 * @param {Uint8Array} encoded_pubkeys
 * @param {Uint8Array} encoded_signature
-* @param {number} position
 * @returns {boolean}
 */
-  static verify(message: Uint8Array, encoded_pubkeys: Uint8Array, encoded_signature: Uint8Array, position: number): boolean;
+  static verify(message: Uint8Array, encoded_pubkeys: Uint8Array, encoded_signature: Uint8Array): boolean;
 }

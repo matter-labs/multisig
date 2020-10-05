@@ -2,7 +2,7 @@ import * as chai from "chai";
 const expect = chai.expect;
 import * as crypto from "crypto";
 
-import { MusigBN256WasmSigner, MusigBN256WasmVerifier } from "musig-bindings";
+import { MusigBN256WasmSigner, MusigBN256WasmVerifier, MusigBN256WasmAggregatedPubkey } from "musig-bindings";
 import { privateKeyFromSeed, private_key_to_pubkey } from "zksync-crypto";
 
 describe("Schnorr-MuSig", function () {
@@ -46,6 +46,14 @@ describe("Schnorr-MuSig", function () {
             signers[i] = MusigBN256WasmSigner.new(all_pubkeys, i);
         }
     });
+
+
+    it("should compute aggregated pubkey from pubkey list", function(){
+        let all_pubkeys = merge_array(pubkeys);
+
+        let agg_pubkey = MusigBN256WasmAggregatedPubkey.compute(all_pubkeys);        
+    })
+
 
     it("should compute pre commitments", function () {
         // each party should compute his own commitment and send hash of it to other parties
@@ -92,7 +100,7 @@ describe("Schnorr-MuSig", function () {
         // loop is redundant
         let all_pubkeys = merge_array(pubkeys);
         for (let i = 0; i < number_of_participants; i++) {
-            let is_valid = MusigBN256WasmVerifier.verify(message, all_pubkeys, aggregated_signatures[i], i);
+            let is_valid = MusigBN256WasmVerifier.verify(message, all_pubkeys, aggregated_signatures[i]);
             expect(is_valid).eq(true);
         }
     });
